@@ -24,9 +24,4 @@ public class StockCompanyInfo {
     private Integer increaseRate;
     private Integer viewCnt;
     private Integer buyCnt;
-
-    private Integer page;
-    private Integer offset;
-    private Integer limit;
-    private String orderBy;
 }
