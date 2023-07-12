@@ -10,6 +10,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import javax.persistence.EntityManager;
 import javax.transaction.Transactional;
 
+import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -30,12 +31,27 @@ class StockRandomRankProjectApplicationTests {
 
 	@Test
 	@DisplayName("querydsl 테스트")
-	void querydsl() {
+	void querydsl_테스트() {
 		assertTrue(
 			Optional.ofNullable(
 				jpaQueryFactory
 					.select(stockCompanyInfo.id)
 					.from(stockCompanyInfo)
+					.limit(1)
+					.fetchOne()
+			).isPresent()
+		);
+	}
+
+	@Test
+	@DisplayName("querydsl not in 테스트")
+	void querydsl_not_in_테스트() {
+		assertTrue(
+			Optional.ofNullable(
+				jpaQueryFactory
+					.select(stockCompanyInfo.id)
+					.from(stockCompanyInfo)
+					.where(stockCompanyInfo.id.notIn(List.of(1,2,3)))
 					.limit(1)
 					.fetchOne()
 			).isPresent()
