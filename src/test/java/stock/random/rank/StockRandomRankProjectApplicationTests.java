@@ -52,9 +52,8 @@ class StockRandomRankProjectApplicationTests {
 					.select(stockCompanyInfo.id)
 					.from(stockCompanyInfo)
 					.where(stockCompanyInfo.id.notIn(List.of(1,2,3)))
-					.limit(1)
-					.fetchOne()
-			).isPresent()
+					.fetch()
+			).get().size() > 0
 		);
 	}
 }
