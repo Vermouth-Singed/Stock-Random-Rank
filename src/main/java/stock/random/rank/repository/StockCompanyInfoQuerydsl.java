@@ -3,6 +3,7 @@ package stock.random.rank.repository;
 import com.querydsl.core.types.OrderSpecifier;
 import com.querydsl.core.types.Projections;
 import com.querydsl.jpa.impl.JPAQueryFactory;
+import com.querydsl.jpa.impl.JPAUpdateClause;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import stock.random.rank.entity.StockCompanyInfo;
@@ -16,6 +17,9 @@ import static stock.random.rank.entity.QStockCompanyInfo.stockCompanyInfo;
 public class StockCompanyInfoQuerydsl {
     @Autowired
     private JPAQueryFactory jpaQueryFactory;
+
+    @Autowired
+    private JPAUpdateClause stockCompanyInfoUpdateClause;
 
     public List<StockCompanyInfo> listSampleData(int offset, int limit, String orderByParam) {
         return jpaQueryFactory
@@ -38,5 +42,14 @@ public class StockCompanyInfoQuerydsl {
             .from(stockCompanyInfo)
             .where(stockCompanyInfo.id.notIn(idList))
             .fetch();
+    }
+
+    public long updateDefaultData(Set<Integer> idList) {
+        return stockCompanyInfoUpdateClause
+            .set(stockCompanyInfo.increaseRate, 0)
+            .set(stockCompanyInfo.buyCnt, 0)
+            .set(stockCompanyInfo.viewCnt, 0)
+            .where(stockCompanyInfo.id.notIn(idList))
+            .execute();
     }
 }

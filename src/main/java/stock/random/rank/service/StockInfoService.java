@@ -9,6 +9,7 @@ import stock.random.rank.model.ErrorMsg;
 import stock.random.rank.repository.StockCompanyInfoJpa;
 import stock.random.rank.repository.StockCompanyInfoQuerydsl;
 
+import javax.transaction.Transactional;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -68,6 +69,7 @@ public class StockInfoService {
         });
     }
 
+    @Transactional
     public void stockCompanyInfoScheduler() {
         Map<Integer, StockCompanyInfo> updateIdMap = new HashMap<>();
 
@@ -85,13 +87,15 @@ public class StockInfoService {
             updateIdMap.put(randomId, null);
         }
 
-        Optional
-        .ofNullable(stockCompanyInfoQuerydsl.leftSampleData(updateIdMap.keySet()))
-        .ifPresent(listStockCompanyInfo -> {
-            listStockCompanyInfo.stream().forEach(stockCompanyInfo -> {
-                updateSampleData(stockCompanyInfo.getId().intValue(), 0, 0, 0);
-            });
-        });
+//        Optional
+//        .ofNullable(stockCompanyInfoQuerydsl.leftSampleData(updateIdMap.keySet()))
+//        .ifPresent(listStockCompanyInfo -> {
+//            listStockCompanyInfo.stream().forEach(stockCompanyInfo -> {
+//                updateSampleData(stockCompanyInfo.getId().intValue(), 0, 0, 0);
+//            });
+//        });
+
+        stockCompanyInfoQuerydsl.updateDefaultData(updateIdMap.keySet());
 
         for (Integer id : updateIdMap.keySet()) {
             updateSampleData(
