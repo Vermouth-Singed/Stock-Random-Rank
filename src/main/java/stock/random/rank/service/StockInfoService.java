@@ -87,14 +87,6 @@ public class StockInfoService {
             updateIdMap.put(randomId, null);
         }
 
-//        Optional
-//        .ofNullable(stockCompanyInfoQuerydsl.leftSampleData(updateIdMap.keySet()))
-//        .ifPresent(listStockCompanyInfo -> {
-//            listStockCompanyInfo.stream().forEach(stockCompanyInfo -> {
-//                updateSampleData(stockCompanyInfo.getId().intValue(), 0, 0, 0);
-//            });
-//        });
-
         stockCompanyInfoQuerydsl.updateDefaultData(updateIdMap.keySet());
 
         for (Integer id : updateIdMap.keySet()) {

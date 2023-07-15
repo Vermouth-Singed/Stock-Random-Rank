@@ -36,14 +36,6 @@ public class StockCompanyInfoQuerydsl {
             .fetch();
     }
 
-    public List<StockCompanyInfo> leftSampleData(Set<Integer> idList) {
-        return jpaQueryFactory
-            .select(Projections.fields(StockCompanyInfo.class, stockCompanyInfo.id))
-            .from(stockCompanyInfo)
-            .where(stockCompanyInfo.id.notIn(idList))
-            .fetch();
-    }
-
     public long updateDefaultData(Set<Integer> idList) {
         return stockCompanyInfoUpdateClause
             .set(stockCompanyInfo.increaseRate, 0)
